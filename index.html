@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Documentación - REST API Ormigga</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+	<div class="wrapper d-flex align-items-stretch">
+		<nav id="sidebar">
+			<div class="custom-menu">
+				<button type="button" id="sidebarCollapse" class="btn btn-primary">
+					<i class="fa fa-bars"></i>
+					<span class="sr-only">Toggle Menu</span>
+				</button>
+			</div>
+			<div class="p-4">
+				<div class="title">
+					<h1>
+						<a href="https://develop.ormigga.com" class="logo">REST API</a>
+					</h1>
+				</div>
+				<ul class="list-unstyled components mb-5">
+					<li class="active">
+						<a href="#intro"><span class="fa fa-home mr-3"></span> Introduccion</a>
+					</li>
+					<li>
+						<a href="#autenticacion"><span class="fa fa-user mr-3"></span> Autenticación</a>
+					</li>
+					<li>
+						<a href="#solicitudes"><span class="fa fa-briefcase mr-3"></span> Solicitudes</a>
+					</li>
+					<li>
+						<a href="#propuestas"><span class="fa fa-paper-plane mr-3"></span> propuestas</a>
+					</li>
+					<li>
+						<a href="#contratos"><span class="fa fa-sticky-note mr-3"></span> Contratos</a>
+					</li>
+				</ul>
+
+				<!-- <div class="mb-5">
+					<h3 class="h6 mb-3">Subscribe for newsletter</h3>
+					<form action="#" class="subscribe-form">
+						<div class="form-group d-flex">
+							<div class="icon"><span class="icon-paper-plane"></span></div>
+							<input type="text" class="form-control" placeholder="Enter Email Address">
+						</div>
+					</form>
+				</div> -->
+
+				<div class="footer">
+					<p>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						Copyright &copy;
+						<script>document.write(new Date().getFullYear());</script> All rights reserved.
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</p>
+				</div>
+
+			</div>
+		</nav>
+
+		<!-- Page Content  -->
+		<div id="intro" class="p-4 p-md-5 pt-5 content">
+			<h2 class="mb-4">Introduccion</h2>
+			<p>Documentacion oficial API RESTFul del Software Ormigga.</p>
+			<p>Este servicio te permitirá integrar el <b><a href="https://ormigga.com">Software de ormigga</a></b> en
+				tus desarrollos, tener información actualizada de los procesos de solicitudes, propuestas y
+				contrataciones de tu empresa en el ormiggero.</p>
+
+			<div id="autenticacion" class="mb-4">
+				<h2>Referencias</h2>
+				<h2>
+					Metodo de Autenticación
+					<p>/api/external/oauth/token <b>(POST)</b></p>
+				</h2>
+				<p>
+					Autenticación de usuarios de Ormigga, verificacion de usuario y contraseña <b>(secret_code)</b>.<br>
+					Estas credenciales serán asignadas por el equipo de tecnología de Ormigga.
+				</p>
+				<p>Descripción de campos JSON (Request):</p>
+				<div class="codeData mb-2">
+					<ul>
+						<li>
+							Body:
+							<ul>
+								<li>Usuario: nombre de usuario</li>
+								<li>secret_code: código secreto (contraseña).</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<p class="mt-4">Descripción de campos JSON (Response):</p>
+				<div class="codeData mb-2">
+					<ul>
+						<li>
+							Body:
+							<ul>
+								<li>error: "Unauthorized" = true en caso de ingresar datos inválidos.</li>
+								<li>access_token: token de acceso que deberás utilizar en los siguientes metodos para
+									acceder a la información de tu empresa.</li>
+								<li>token_type: Tipo del token.</li>
+								<li>expires_in: Tiempo (segundos) de expiración del token.</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div id="solicitudes" class="mt-2 mb-4">
+				<h2>
+					Metodo - Solicitudes
+					<p>/api/external/solicitudes <b>(POST)</b></p>
+				</h2>
+				<p>
+					Metodo para listar solicitudes.
+				</p>
+				<div class="codeData">
+					<ul>
+						<li>
+							Header:
+							<ul>
+								<li>Autorizathion: objeto token que se responde en el objeto auth.access_token en el
+									<a href="#autenticacion">método de Autenticación</a>.</li>
+							</ul>
+						</li>
+						<li>
+							Body:
+							<ul>
+								<li>usuario:(opcional) id del usuario creador de la solicitud.</li>
+								<li>
+									estado:(opcional) estado de la solicitud. (activa, cerrada, contratada, aprobacion, archivada).
+								</li>
+								<li>id_solicitud:(opcional) id de la solicitud.</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<p class="mt-4">Descripción de campos JSON (Response):</p>
+				<div class="codeData mb-2">
+					<ul>
+						Body:
+						<ul>
+							<li>id: id de la solicitud</li>
+							<li>nombre: Nombre de la solicitud.</li>
+							<li>fecha: Fecha de creación de la solicitud.</li>
+							<li>fecha_entrega: Fecha estimada de entrega.</li>
+							<li>muestra_fisica: 1 = Requiere muestra / 0 = No requiere muestra</li>
+							<li>muestra_digital: 1 = Requiere muestra / 0 = No requiere muestra</li>
+							<li>usuario: id del usuario creador de la solicitud.</li>
+							<li>nombre_usuario: nombre del usuario creador de la solicitud.</li>
+							<li>correo_usuario: correo del usuario creador de la solciitud.</li>
+							<li>descripcion: descripción de la solicitud.</li>
+							<li>estado: estado de la solicitud.</li>
+							<li>forma_de_pago: Formas de pago de la solicitud (Array object {nombre, porcentaje}).</li>
+							<li>entrega: Datos del lugar de entrega (Array object {direccion, teléfono}).</li>
+							<li>control_aprobaciones: Datos del estado de aprobación de la solicitud (Array object {descripcion_aprobacion, descripcion_aprobador_1, usuario_aprobador}).</li>
+							<li>codigos: Codigos que digitó el usuario (Array object {nombre, codigo_orden}).</li>
+							<li>items: Items de la solicitud (Array object {descripcion, cantidad, subtotal}).</li>
+						</ul>
+					</ul>
+				</div>
+			</div>
+
+			<div id="propuestas" class="mt-2">
+				<h2>
+					Metodo - Propuestas
+					<p>/api/external/propuestas <b>(GET)</b></p>
+				</h2>
+				<p>
+					Metodo para listar propuestas.
+				</p>
+				<div class="codeData">
+					<ul>
+						<li>
+							Header:
+							<ul>
+								<li>Autorizathion: objeto token que se responde en el objeto auth.access_token en el
+									<a href="#autenticacion">método de Autenticación</a>.</li>
+							</ul>
+						</li>
+						<li>
+							Body:
+							<ul>
+								<li>id:(opcional) id de la propuesta.</li>
+								<li>id_solicitud:(opcional) id de la solicitud.</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<p class="mt-4">Descripción de campos JSON (Response):</p>
+				<div class="codeData mb-2">
+					<ul>
+						Body:
+						<ul>
+							<li>id: id de la propuesta</li>
+							<li>id_solicitud: id de la solicitud.</li>
+							<li>fecha_vencimiento: Fecha de vencimiento de la propuesta.</li>
+							<li>inicio_contrato: Fecha inicio de contrato.</li>
+							<li>descripcion: descripción de la propuesta.</li>
+							<li>valor_propuesta: Valor de la propuesta (sin impuestos).</li>
+							<li>valor_total: Valor total de la propuesta (con impuestos).</li>
+							<li>ahorro: ahorro de la propuesta.</li>
+							<li>forma_de_pago: Formas de pago de la propuesta (Array object {nombre, porcentaje}).</li>
+							<li>estado: estado de la propuesta (activa, cancelada, cerrada, contratada, vencida).</li>
+							<li>items: Items cotizados en la propuesta (Array object {descripcion, cantidad, subtotal, iva}).</li>
+							<li>fecha: fecha de creación de la propuesta.</li>
+						</ul>
+					</ul>
+				</div>
+			</div>
+
+			<div id="contratos" class="mt-2">
+				<h2>
+					Metodo - Contratos
+					<p>/api/external/contratos <b>(GET)</b></p>
+				</h2>
+				<p>
+					Metodo para listar contratos.
+				</p>
+				<div class="codeData">
+					<ul>
+						<li>
+							Header:
+							<ul>
+								<li>Autorizathion: objeto token que se responde en el objeto auth.access_token en el
+									<a href="#autenticacion">método de Autenticación</a>.</li>
+							</ul>
+						</li>
+						<li>
+							Body:
+							<ul>
+								<li>id:(opcional) id de la propuesta.</li>
+								<li>id_solicitud:(opcional) id de la solicitud.</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<p class="mt-4">Descripción de campos JSON (Response):</p>
+				<div class="codeData mb-2">
+					<ul>
+						Body:
+						<ul>
+							<li>id: id del contrato</li>
+							<li>id_solicitud: id de la solicitud del contrato.</li>
+							<li>id_propuesta: id de la propuesta del contrato.</li>
+							<li>fecha_aceptado_proveedor: Fecha de aceptación por parte del proveedor.</li>
+							<li>tiempo_desarrollo: Tiempo en días para el desarrollo.</li>
+							<li>muestra_fisica: 1 = Requiere muestra / 0 = No requiere muestra</li>
+							<li>muestra_digital: 1 = Requiere muestra / 0 = No requiere muestra</li>
+							<li>descripcion: Descripcion de la propuesta.</li>
+							<li>valor_total: Valor del contrato (con impuestos).</li>
+							<li>valor_contrato: Valor del contrato (sin impuestos).</li>
+							<li>estado: estado del contrato (activa, anulada, cancelada, contratada, finalizada, pendiente, terminada).</li>
+							<li>entrega: Datos del lugar de entrega (Array object {direccion, teléfono}).</li>
+							<li>items: Items de la propuesta (Array object {descripcion, valor_unitario, cantidad, subtotal, iva}).</li>
+							<li>total_items: Precio total de los items.</li>
+							<li>Proveedor: nombre del proveedor.</li>
+						</ul>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/popper.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+
+</html>
